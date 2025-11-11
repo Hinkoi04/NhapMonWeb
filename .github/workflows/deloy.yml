@@ -1,0 +1,26 @@
+name: Deploy to InfinityFree
+
+# Khi nào chạy workflow?
+on:
+  push:
+    branches:
+      - main  # hoặc "master" nếu repo của bạn dùng branch đó
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Lấy code từ repo về
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      # 2. Upload code qua FTP lên InfinityFree
+      - name: Upload to InfinityFree via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.3
+        with:
+          server: ftpupload.net
+          username: ${{ secrets.INFINITY_FTP_USER }}
+          password: ${{ secrets.INFINITY_FTP_PASS }}
+          local-dir: ./
+          server-dir: /manguonmothu3ca2.rf.gd/htdocs/
